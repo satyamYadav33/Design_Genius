@@ -1,31 +1,43 @@
 import React, { useState } from 'react';
 import { FLAVORS } from '../data/products';
-import { Check, Sparkles, Sliders } from 'lucide-react';
+import { Check, ShoppingBag, Sparkles } from 'lucide-react';
 
-export default function FlavorShowcase({ onSelectFlavor, onOpenStore }) {
-  const [activeFlavorId, setActiveFlavorId] = useState('brushed-titanium');
-  const activeFlavor = FLAVORS.find(f => f.id === activeFlavorId) || FLAVORS[0];
+export default function FlavorShowcase({ onSelectFlavor, onAddToCart }) {
+  const [activeFlavorId, setActiveFlavorId] = useState('obsidian-cocoa');
+  const activeFlavor = FLAVORS.find(f => f.id === activeFlavorId) || FLAVORS[1];
+
+  const handleAddFlavor = () => {
+    onAddToCart({
+      id: `protein-${activeFlavor.id}`,
+      title: `Titanium Pro Powder — ${activeFlavor.name}`,
+      price: 29.99,
+      packSize: 1,
+      isSubscription: false,
+      image: activeFlavor.image
+    });
+  };
 
   return (
-    <section id="flavors" className="bg-white section-padding" style={{ borderTop: '1px solid #f5f5f7' }}>
-      <div className="container">
+    <section id="flavors" style={{ backgroundColor: '#fbfbfd', paddingTop: '80px', paddingBottom: '90px', borderTop: '1px solid #f0f0f2' }}>
+      <div className="container" style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 24px' }}>
+        
         {/* Section Header */}
         <div style={{ marginBottom: '40px' }}>
-          <p className="text-body-sm text-secondary" style={{ marginBottom: '8px', fontWeight: '500' }}>
-            PRODUCT FINISHES
+          <p style={{ fontSize: '13px', fontWeight: '700', color: '#707070', letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: '8px' }}>
+            NUTRITION MATRIX
           </p>
-          <h2 className="text-heading" style={{ color: '#1d1d1f' }}>
-            Five Anodized Finishes.<br />One Uncompromised Formula.
+          <h2 style={{ fontSize: '48px', fontWeight: '700', color: '#1d1d1f', letterSpacing: '-1px', margin: 0 }}>
+            Five Pure Flavours.<br />40 Grams Bio-Available Isolate.
           </h2>
         </div>
 
         {/* Swatch Selector Row */}
         <div style={{
           display: 'flex',
-          gap: '14px',
+          gap: '12px',
           alignItems: 'center',
           flexWrap: 'wrap',
-          marginBottom: '50px'
+          marginBottom: '40px'
         }}>
           {FLAVORS.map(flavor => {
             const isSelected = flavor.id === activeFlavorId;
@@ -40,21 +52,22 @@ export default function FlavorShowcase({ onSelectFlavor, onOpenStore }) {
                   display: 'flex',
                   alignItems: 'center',
                   gap: '10px',
-                  padding: '10px 18px',
+                  padding: '10px 20px',
                   borderRadius: '980px',
-                  border: isSelected ? '2px solid #0071e3' : '1px solid #d6d6d6',
+                  border: isSelected ? '1.5px solid #1d1d1f' : '1px solid #e5e5e7',
                   backgroundColor: isSelected ? '#ffffff' : '#f5f5f7',
                   cursor: 'pointer',
-                  transition: 'all 0.2s ease'
+                  transition: 'all 0.2s ease',
+                  boxShadow: isSelected ? '0 2px 8px rgba(0,0,0,0.06)' : 'none'
                 }}
               >
                 {/* Color Dot Swatch */}
                 <span style={{
-                  width: '18px',
-                  height: '18px',
+                  width: '16px',
+                  height: '16px',
                   borderRadius: '50%',
                   backgroundColor: flavor.hex,
-                  border: '1px solid rgba(0,0,0,0.1)',
+                  border: '1px solid rgba(0,0,0,0.12)',
                   display: 'inline-flex',
                   alignItems: 'center',
                   justifyContent: 'center'
@@ -72,10 +85,10 @@ export default function FlavorShowcase({ onSelectFlavor, onOpenStore }) {
 
                 {flavor.badge && (
                   <span style={{
-                    fontSize: '10px',
+                    fontSize: '11px',
                     color: '#707070',
                     backgroundColor: 'rgba(0,0,0,0.05)',
-                    padding: '2px 6px',
+                    padding: '2px 8px',
                     borderRadius: '99px'
                   }}>
                     {flavor.badge}
@@ -93,18 +106,19 @@ export default function FlavorShowcase({ onSelectFlavor, onOpenStore }) {
           gap: '30px',
           alignItems: 'stretch'
         }}>
-          {/* Card 1: Product Render with Finish Background */}
+          {/* Card 1: Product Render */}
           <div style={{
-            borderRadius: '28px',
-            backgroundColor: activeFlavor.bgTone,
+            borderRadius: '24px',
+            backgroundColor: '#ffffff',
+            border: '1px solid #f0f0f2',
             padding: '50px 40px',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
             position: 'relative',
-            minHeight: '440px',
-            transition: 'background-color 0.4s ease'
+            minHeight: '420px',
+            boxShadow: '0 8px 30px rgba(0,0,0,0.03)'
           }}>
             <span style={{
               position: 'absolute',
@@ -116,14 +130,14 @@ export default function FlavorShowcase({ onSelectFlavor, onOpenStore }) {
               letterSpacing: '0.05em',
               color: '#707070'
             }}>
-              {activeFlavor.name} Finish
+              {activeFlavor.name} Edition
             </span>
 
             <img 
               src={activeFlavor.image}
               alt={activeFlavor.name}
               style={{
-                maxHeight: '320px',
+                maxHeight: '300px',
                 width: 'auto',
                 maxWidth: '100%',
                 objectFit: 'contain',
@@ -133,36 +147,42 @@ export default function FlavorShowcase({ onSelectFlavor, onOpenStore }) {
             />
           </div>
 
-          {/* Card 2: Interactive Spec Details */}
-          <div className="apple-card-gray" style={{
+          {/* Card 2: Spec Details */}
+          <div style={{
+            backgroundColor: '#ffffff',
+            borderRadius: '24px',
+            border: '1px solid #f0f0f2',
+            padding: '40px',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'space-between',
-            padding: '40px'
+            boxShadow: '0 8px 30px rgba(0,0,0,0.03)'
           }}>
             <div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '16px' }}>
-                <span className="badge-nuevo" style={{ color: activeFlavor.accentColor, margin: 0 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+                <span style={{ fontSize: '12px', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#1d1d1f' }}>
                   {activeFlavor.badge}
                 </span>
-                <span className="text-caption text-secondary">450ml Ready-to-Drink</span>
+                <span style={{ fontSize: '13px', color: '#707070' }}>30 Servings / Pouch</span>
               </div>
 
-              <h3 className="text-subheading" style={{ color: '#1d1d1f', marginBottom: '8px' }}>
+              <h3 style={{ fontSize: '32px', fontWeight: '700', color: '#1d1d1f', marginBottom: '6px', letterSpacing: '-0.5px' }}>
                 {activeFlavor.name}
               </h3>
-              <p className="text-body-sm text-secondary" style={{ marginBottom: '24px' }}>
+              <p style={{ fontSize: '15px', color: '#707070', marginBottom: '24px' }}>
                 {activeFlavor.tagline}
               </p>
 
               <div style={{
-                backgroundColor: '#ffffff',
+                backgroundColor: '#f5f5f7',
                 borderRadius: '16px',
                 padding: '20px',
                 marginBottom: '28px'
               }}>
-                <p className="text-caption text-secondary" style={{ marginBottom: '6px' }}>Tasting Notes & Texture</p>
-                <p className="text-body-sm" style={{ color: '#1d1d1f', fontWeight: '500' }}>
+                <p style={{ fontSize: '12px', color: '#707070', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '6px' }}>
+                  Tasting Notes
+                </p>
+                <p style={{ fontSize: '14px', color: '#1d1d1f', fontWeight: '500', lineHeight: '1.4' }}>
                   "{activeFlavor.flavorProfile}"
                 </p>
               </div>
@@ -171,37 +191,46 @@ export default function FlavorShowcase({ onSelectFlavor, onOpenStore }) {
               <div style={{
                 display: 'grid',
                 gridTemplateColumns: '1fr 1fr 1fr',
-                gap: '16px',
+                gap: '12px',
                 textAlign: 'center',
                 marginBottom: '28px'
               }}>
-                <div style={{ backgroundColor: '#ffffff', padding: '16px 12px', borderRadius: '16px' }}>
-                  <p className="text-heading-sm" style={{ color: '#0071e3', fontSize: '28px' }}>{activeFlavor.protein}</p>
-                  <p className="text-micro text-secondary">Protein</p>
+                <div style={{ backgroundColor: '#f5f5f7', padding: '16px 10px', borderRadius: '16px' }}>
+                  <p style={{ fontSize: '24px', fontWeight: '700', color: '#1d1d1f', margin: 0 }}>{activeFlavor.protein}</p>
+                  <p style={{ fontSize: '12px', color: '#707070', margin: 0, marginTop: '2px' }}>Protein</p>
                 </div>
-                <div style={{ backgroundColor: '#ffffff', padding: '16px 12px', borderRadius: '16px' }}>
-                  <p className="text-heading-sm" style={{ color: '#1d1d1f', fontSize: '28px' }}>{activeFlavor.bcaa}</p>
-                  <p className="text-micro text-secondary">BCAAs</p>
+                <div style={{ backgroundColor: '#f5f5f7', padding: '16px 10px', borderRadius: '16px' }}>
+                  <p style={{ fontSize: '24px', fontWeight: '700', color: '#1d1d1f', margin: 0 }}>{activeFlavor.bcaa}</p>
+                  <p style={{ fontSize: '12px', color: '#707070', margin: 0, marginTop: '2px' }}>BCAAs</p>
                 </div>
-                <div style={{ backgroundColor: '#ffffff', padding: '16px 12px', borderRadius: '16px' }}>
-                  <p className="text-heading-sm" style={{ color: '#1d1d1f', fontSize: '28px' }}>{activeFlavor.sugar}</p>
-                  <p className="text-micro text-secondary">Sugar</p>
+                <div style={{ backgroundColor: '#f5f5f7', padding: '16px 10px', borderRadius: '16px' }}>
+                  <p style={{ fontSize: '24px', fontWeight: '700', color: '#1d1d1f', margin: 0 }}>{activeFlavor.sugar}</p>
+                  <p style={{ fontSize: '12px', color: '#707070', margin: 0, marginTop: '2px' }}>Sugar</p>
                 </div>
               </div>
             </div>
 
             <div style={{ display: 'flex', gap: '14px', alignItems: 'center' }}>
               <button 
-                onClick={onOpenStore} 
+                onClick={handleAddFlavor} 
                 className="btn-electric" 
-                style={{ flex: 1, padding: '12px' }}
+                style={{
+                  flex: 1,
+                  padding: '14px',
+                  backgroundColor: '#1d1d1f',
+                  color: '#ffffff',
+                  borderRadius: '980px',
+                  fontSize: '15px',
+                  fontWeight: '500',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '8px'
+                }}
               >
-                Add {activeFlavor.name} — $4.99
+                <ShoppingBag size={16} />
+                <span>Add {activeFlavor.name} — $29.99</span>
               </button>
-              
-              <a href="#configurator" className="link-arrow">
-                Custom Pack ›
-              </a>
             </div>
           </div>
         </div>

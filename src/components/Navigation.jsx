@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ShoppingBag, Search, X, ShieldCheck } from 'lucide-react';
+import { ShoppingBag, Search, X } from 'lucide-react';
 
 export default function Navigation({ cartCount, onOpenCart, onOpenStore }) {
   const [scrolled, setScrolled] = useState(false);
@@ -8,7 +8,7 @@ export default function Navigation({ cartCount, onOpenCart, onOpenStore }) {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 20) {
+      if (window.scrollY > 15) {
         setScrolled(true);
       } else {
         setScrolled(false);
@@ -23,82 +23,91 @@ export default function Navigation({ cartCount, onOpenCart, onOpenStore }) {
       position: 'sticky',
       top: 0,
       zIndex: 100,
-      height: '44px',
-      backgroundColor: scrolled ? 'rgba(250, 250, 252, 0.88)' : 'rgba(255, 255, 255, 0.95)',
+      height: '48px',
+      backgroundColor: scrolled ? 'rgba(255, 255, 255, 0.92)' : '#ffffff',
       backdropFilter: 'blur(20px)',
       WebkitBackdropFilter: 'blur(20px)',
-      borderBottom: scrolled ? '1px solid rgba(0, 0, 0, 0.08)' : 'none',
+      borderBottom: '1px solid rgba(0, 0, 0, 0.06)',
       transition: 'background-color 0.3s ease, border-color 0.3s ease'
     }}>
       <div className="container" style={{
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        height: '100%'
+        height: '100%',
+        maxWidth: '1280px',
+        margin: '0 auto',
+        padding: '0 24px'
       }}>
-        {/* Brand Logo */}
+        {/* Brand Logo - KORE Target Emblem */}
         <a href="#" style={{
           textDecoration: 'none',
           color: '#1d1d1f',
-          fontSize: '15px',
-          fontWeight: '700',
-          letterSpacing: '-0.4px',
+          fontSize: '16px',
+          fontWeight: '800',
+          letterSpacing: '0.05em',
           display: 'flex',
           alignItems: 'center',
-          gap: '6px'
+          gap: '8px'
         }}>
+          {/* Target Logo Icon */}
           <span style={{
-            width: '18px',
-            height: '18px',
+            width: '20px',
+            height: '20px',
             borderRadius: '50%',
-            backgroundColor: '#1d1d1f',
+            border: '2.5px solid #1d1d1f',
             display: 'inline-flex',
             alignItems: 'center',
             justifyContent: 'center',
-            color: '#0071e3',
-            fontSize: '10px',
-            fontWeight: '900'
-          }}>T</span>
-          <span>TITANIUM <span style={{ fontWeight: '400', color: '#707070' }}>PRO</span></span>
+            position: 'relative'
+          }}>
+            <span style={{
+              width: '6px',
+              height: '6px',
+              borderRadius: '50%',
+              backgroundColor: '#1d1d1f'
+            }} />
+          </span>
+          <span>KORE</span>
         </a>
 
         {/* Desktop Nav Links */}
-        <nav style={{ display: 'flex', gap: '28px', alignItems: 'center' }} className="nav-links">
-          <a href="#hero" style={linkStyle}>Overview</a>
-          <a href="#flavors" style={linkStyle}>Finishes</a>
-          <a href="#science" style={linkStyle}>Bio-Tech</a>
-          <a href="#configurator" style={linkStyle}>Build Pack</a>
-          <a href="#testimonials" style={linkStyle}>Reviews</a>
+        <nav style={{ display: 'flex', gap: '32px', alignItems: 'center' }} className="nav-links">
+          <a href="#hero" style={linkStyle}>Ti</a>
+          <a href="#closer-look" style={linkStyle}>Ti Pro</a>
+          <a href="#flavors" style={linkStyle}>Flavours</a>
+          <a href="#science" style={linkStyle}>Nutrition</a>
+          <a href="#configurator" style={linkStyle}>Subscribe</a>
           <a href="#faq" style={linkStyle}>Support</a>
         </nav>
 
         {/* Right Actions: Search & Cart */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '18px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
           <button 
             onClick={() => setSearchOpen(!searchOpen)}
             style={iconButtonStyle}
             title="Search"
+            aria-label="Search"
           >
-            {searchOpen ? <X size={16} color="#1d1d1f" /> : <Search size={16} color="#474747" />}
+            {searchOpen ? <X size={17} color="#1d1d1f" /> : <Search size={17} color="#1d1d1f" />}
           </button>
 
           <button 
             onClick={onOpenCart}
             style={{
               ...iconButtonStyle,
-              position: 'relative',
-              display: 'flex',
-              alignItems: 'center'
+              position: 'relative'
             }}
-            title="Bag"
+            title="Shopping Bag"
+            aria-label="Shopping Bag"
           >
-            <ShoppingBag size={16} color="#474747" />
+            <ShoppingBag size={17} color="#1d1d1f" />
             {cartCount > 0 && (
               <span style={{
                 position: 'absolute',
                 top: '-4px',
                 right: '-6px',
-                backgroundColor: '#0071e3',
+                backgroundColor: '#1d1d1f',
                 color: '#ffffff',
                 fontSize: '10px',
                 fontWeight: '700',
@@ -120,22 +129,22 @@ export default function Navigation({ cartCount, onOpenCart, onOpenStore }) {
       {searchOpen && (
         <div style={{
           backgroundColor: '#fafafc',
-          borderBottom: '1px solid #d6d6d6',
+          borderBottom: '1px solid #e5e5e7',
           padding: '16px 24px',
           animation: 'fadeIn 0.2s ease-out'
         }}>
-          <div className="container" style={{ maxWidth: '600px', margin: '0 auto', display: 'flex', gap: '12px' }}>
+          <div style={{ maxWidth: '600px', margin: '0 auto', display: 'flex', gap: '12px' }}>
             <input 
               type="text"
-              placeholder="Search flavors, amino specs, absorption data..."
+              placeholder="Search KORE bottles, finishes, nutrition specs..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               autoFocus
               style={{
                 width: '100%',
-                padding: '10px 16px',
+                padding: '10px 18px',
                 borderRadius: '980px',
-                border: '1px solid #d6d6d6',
+                border: '1px solid #d1d1d6',
                 outline: 'none',
                 fontSize: '14px',
                 fontFamily: 'inherit'
@@ -144,7 +153,7 @@ export default function Navigation({ cartCount, onOpenCart, onOpenStore }) {
             <button 
               onClick={() => { setSearchOpen(false); onOpenStore(); }}
               className="btn-electric"
-              style={{ padding: '8px 18px', fontSize: '13px' }}
+              style={{ padding: '8px 20px', fontSize: '13px', backgroundColor: '#1d1d1f', borderRadius: '980px' }}
             >
               Search
             </button>
@@ -156,10 +165,10 @@ export default function Navigation({ cartCount, onOpenCart, onOpenStore }) {
 }
 
 const linkStyle = {
-  fontSize: '12px',
+  fontSize: '13px',
   color: '#1d1d1f',
   textDecoration: 'none',
-  fontWeight: '400',
+  fontWeight: '500',
   letterSpacing: '-0.1px',
   transition: 'color 0.2s ease'
 };
@@ -168,8 +177,10 @@ const iconButtonStyle = {
   background: 'none',
   border: 'none',
   cursor: 'pointer',
-  padding: '4px',
+  padding: '6px',
   display: 'flex',
   alignItems: 'center',
-  justifyContent: 'center'
+  justifyContent: 'center',
+  borderRadius: '50%',
+  transition: 'background-color 0.2s ease'
 };

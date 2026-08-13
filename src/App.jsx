@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import PromoRibbon from './components/PromoRibbon';
 import Navigation from './components/Navigation';
 import HeroSection from './components/HeroSection';
+import CloserLookSection from './components/CloserLookSection';
 import FlavorShowcase from './components/FlavorShowcase';
 import HighkeyHighlights from './components/HighkeyHighlights';
 import BioAvailabilityMatrix from './components/BioAvailabilityMatrix';
@@ -10,22 +10,21 @@ import TestimonialShowcase from './components/TestimonialShowcase';
 import FAQSection from './components/FAQSection';
 import CartDrawer from './components/CartDrawer';
 import Footer from './components/Footer';
-import { FLAVORS } from './data/products';
 
 export default function App() {
   const [cartItems, setCartItems] = useState([
     {
-      id: 'bundle-12-sub',
-      title: 'Titanium Pro 12-Bottle Supply Pack',
-      packSize: 12,
-      isSubscription: true,
-      price: 46.74,
+      id: 'bottle-sky',
+      title: 'KORE Ti Vessel — Sky',
+      packSize: 1,
+      isSubscription: false,
+      price: 34.99,
       quantity: 1,
-      image: '/images/hero.png'
+      image: '/images/kore_bottle_sky.png'
     }
   ]);
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const [selectedFlavorId, setSelectedFlavorId] = useState('brushed-titanium');
+  const [selectedFlavorId, setSelectedFlavorId] = useState('obsidian-cocoa');
 
   const cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
 
@@ -63,45 +62,48 @@ export default function App() {
   };
 
   return (
-    <div className="app-root">
-      {/* Top Announcement Banner */}
-      <PromoRibbon onOpenStore={scrollToConfigurator} />
-
-      {/* Sticky Frosted Header */}
+    <div className="app-root" style={{ backgroundColor: '#ffffff', minHeight: '100vh' }}>
+      {/* Sticky KORE Navigation Header */}
       <Navigation 
         cartCount={cartCount} 
         onOpenCart={() => setIsCartOpen(true)}
         onOpenStore={scrollToConfigurator}
       />
 
-      {/* Cathedral Hero Section */}
-      <HeroSection onOpenStore={scrollToConfigurator} />
-
-      {/* Interactive Anodized Finish & Flavor Showcase */}
-      <FlavorShowcase 
-        onSelectFlavor={(id) => setSelectedFlavorId(id)}
-        onOpenStore={scrollToConfigurator}
+      {/* Main KORE Hero Section with 6-Bottle Lineup & Color Swatches */}
+      <HeroSection 
+        onOpenStore={scrollToConfigurator} 
+        onAddToCart={handleAddToCart}
       />
 
-      {/* High-Key Microfiltration Highlights Band (#f5f5f7) */}
+      {/* "A closer look." Headline & Engineering Feature Showcase */}
+      <CloserLookSection />
+
+      {/* Nutrition & Flavours Matrix */}
+      <FlavorShowcase 
+        onSelectFlavor={(id) => setSelectedFlavorId(id)}
+        onAddToCart={handleAddToCart}
+      />
+
+      {/* Bio-Availability & Cellular Absorption Band */}
       <HighkeyHighlights />
 
-      {/* Interactive Bio-Availability Science Comparison */}
+      {/* Science Comparison Matrix */}
       <BioAvailabilityMatrix />
 
-      {/* Custom Bundle Builder */}
+      {/* Custom Supply Bundle Builder */}
       <BundleConfigurator onAddToCart={handleAddToCart} />
 
-      {/* Verified Athlete Reviews */}
+      {/* Athlete Reviews */}
       <TestimonialShowcase />
 
       {/* FAQ Accordion Section */}
       <FAQSection />
 
-      {/* Legal Footer */}
+      {/* Footer */}
       <Footer />
 
-      {/* Slide-Over Shopping Cart Drawer */}
+      {/* Slide-Over Bag Drawer */}
       <CartDrawer 
         isOpen={isCartOpen}
         onClose={() => setIsCartOpen(false)}
